@@ -1,0 +1,33 @@
+.recordButton{
+  margin-top: 38px;
+  border: 2px solid #000;
+  padding: 5px 10px; /* Reduced padding for a smaller button */
+  position: absolute;
+  top: 20px;
+  left: 150px;
+  z-index: 999;
+  cursor: pointer;
+  background-color: #fff;
+  font-size: 14px; 
+}
+
+.recordButton:hover {
+  background-color: #ddd;
+}
+
+.stopButton {
+  margin-top: 38px;
+  border: 2px solid #000; /* Add border */
+  padding: 5px 10px; /* Add padding for better visibility */
+  position: absolute; /* Position absolutely */
+  top: 20px; /* Adjust top position */
+  left: 20px; /* Adjust left position */
+  z-index: 999; /* Set a higher z-index to ensure visibility */
+  cursor: pointer; /* Add cursor style */
+  background-color: #fff; /* Optional: Set a background color */
+  font-size: 14px; 
+}
+
+.stopButton:hover {
+  background-color: #ddd; /* Change background color on hover */
+}
