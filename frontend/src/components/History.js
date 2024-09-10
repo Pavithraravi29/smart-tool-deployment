@@ -48,7 +48,7 @@ const WebSocketGraph = () => {
   useEffect(() => {
     if (isWebSocketRunning) {
     // Connect to WebSocket
-    const ws = new WebSocket('ws://172.18.101.47:1234/ws_all_graph_data1');
+    const ws = new WebSocket('ws://172.18.101.47:8000/ws_all_graph_data1');
 
     ws.onopen = () => {
       console.log('WebSocket connected');

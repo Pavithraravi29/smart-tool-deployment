@@ -27,7 +27,7 @@ const ScatterGraph = ({ fetching }) => {
   
     let ws;
     if (fetching) {
-      ws = new WebSocket('ws://172.18.101.47:1234/ws_all_graph_data');
+      ws = new WebSocket('ws://172.18.101.47:8000/ws_all_graph_data');
 
       ws.onopen = () => {
         console.log('WebSocket connected');

@@ -18,7 +18,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://172.18.101.47:1234/add_user?username=${username}&password=${password}`);
+      const response = await axios.post(`http://172.18.101.47:8000/add_user?username=${username}&password=${password}`);
 
       if (response.status === 200) {
         // Reset fields after successful submission

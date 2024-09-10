@@ -22,7 +22,7 @@ const Graph = ({ paused, fetching }) => {
   // const [stepSizeY, setStepSizeY] = useState(50);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://172.18.101.47:1234/ws_all_graph_data');
+    const ws = new WebSocket('ws://172.18.101.47:8000/ws_all_graph_data');
   
     let receivedData = [];
   

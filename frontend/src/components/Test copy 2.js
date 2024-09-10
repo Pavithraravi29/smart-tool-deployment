@@ -12,7 +12,7 @@ const WebSocketComponent = () => {
   const maxDataPoints = 400; // Maximum number of data points to display
 
   useEffect(() => {
-    const socket = new WebSocket('ws://172.18.101.47:1234/ws_all_graph_data1');
+    const socket = new WebSocket('ws://172.18.101.47:8000/ws_all_graph_data1');
 
     socket.onopen = () => {
       console.log('WebSocket connected');

@@ -51,7 +51,7 @@ const Gauges = () => {
 
     if (isWebSocketRunning) {
       // Establish WebSocket connection only if it's running
-      socket = new WebSocket('ws://172.18.101.47:1234/ws_cockpit');
+      socket = new WebSocket('ws://172.18.101.47:8000/ws_cockpit');
 
       socket.onopen = () => {
         console.log('WebSocket connection established');

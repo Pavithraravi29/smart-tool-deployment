@@ -29,7 +29,7 @@ const ScatterGraph = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://172.18.101.47:1234/all_graph_data');
+      const response = await axios.get('http://172.18.101.47:8000/all_graph_data');
       const graphData = response.data.slice(-bufferSize).map(item => ({
         x: item.bending_moment_x,
         y: item.bending_moment_y,
