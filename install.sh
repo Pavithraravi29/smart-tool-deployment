@@ -43,7 +43,7 @@ WORKDIR /app
 COPY . /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-COPY graph.csv /app/graph.csv
+COPY database/graph.csv /app/database/graph.csv
 COPY import_data.py /app/import_data.py
 EXPOSE 8000
 CMD [\"sh\", \"-c\", \"python init_db.py && uvicorn main:app --host 0.0.0.0 --port 8000\"]
@@ -83,7 +83,7 @@ def import_csv_data(file_path):
     print(\"Data imported successfully\")
   
   if __name__ == \"__main__\":
-    import_csv_data('/app/sample_data.csv')
+     import_csv_data('/app/database/graph.csv')
 "
     
 create_file_if_not_exists "frontend/Dockerfile" "
