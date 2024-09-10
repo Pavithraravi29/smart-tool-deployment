@@ -58,13 +58,10 @@ RUN npm run build
 FROM node:14-alpine
 RUN npm install -g serve
 WORKDIR /app
-RUN npm install -g serve
 COPY --from=build /app/build .
 EXPOSE 3000
-CMD ["serve", "-s", ".", "-l", "3000"]
+CMD [\"serve\", \"-s\", \".\", \"-l\", \"3000\"]
 "
-
-
 
 create_file_if_not_exists "docker-compose.yml" "
 version: '3.8'
@@ -72,6 +69,8 @@ version: '3.8'
 services:
   backend:
     build: ./backend
+    ports:
+      - \"8000:8000\"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
@@ -82,6 +81,8 @@ services:
 
   frontend:
     build: ./frontend
+    ports:
+      - \"3000:3000\"
     depends_on:
       - backend
 
@@ -95,13 +96,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
- 
-
 volumes:
   postgres_data:
-"
-
-
 "
 
 # Build and start the containers
@@ -114,7 +110,8 @@ sleep 10
 # Check if services are running
 if docker-compose ps | grep -q "Up"; then
     echo "Installation complete! The application is now running."
-    echo "You can access it by opening a web browser and navigating to http://localhost"
+    echo "You can access the frontend by opening a web browser and navigating to http://localhost:3000"
+    echo "The backend API is available at http://localhost:8000"
 else
     echo "Something went wrong. Please check the Docker logs for more information."
     docker-compose logs

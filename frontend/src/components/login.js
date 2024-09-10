@@ -17,7 +17,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`http://172.18.101.47:1234/check_user?username=${username}&password=${password}`);
+      const response = await axios.get(`http://172.18.101.47:8000/check_user?username=${username}&password=${password}`);
       console.log(response);
 
       if (response.data.exists) {
