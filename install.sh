@@ -45,7 +45,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY graph.csv /app/graph.csv
 COPY import_data.py /app/import_data.py
 EXPOSE 8000
-CMD [\"sh\", \"-c\", \"python import_data.py && uvicorn main:app --host 0.0.0.0 --port 8000\"]
+CMD [\"sh\", \"-c\", \"python init_db.py && python import_data.py && uvicorn main:app --host 0.0.0.0 --port 8000\"]
 "
 
 create_file_if_not_exists "backend/import_data.py" "
