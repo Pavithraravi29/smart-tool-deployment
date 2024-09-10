@@ -43,10 +43,49 @@ WORKDIR /app
 COPY . /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+COPY graph.csv /app/graph.csv
+COPY import_data.py /app/import_data.py
 EXPOSE 8000
 CMD [\"sh\", \"-c\", \"python init_db.py && uvicorn main:app --host 0.0.0.0 --port 8000\"]
 "
 
+
+create_file_if_not_exists "backend/import_data.py" "
+import csv
+import os
+import psycopg2
+from psycopg2.extras import execute_values
+
+# Database connection parameters
+db_params = {
+    \"dbname\": os.getenv(\"POSTGRES_DB\", \"test_database\"),
+    \"user\": os.getenv(\"POSTGRES_USER\", \"postgres\"),
+    \"password\": os.getenv(\"POSTGRES_PASSWORD\", \"password\"),
+    \"host\": os.getenv(\"POSTGRES_HOST\", \"db\"),
+}
+
+def import_csv_data(file_path):
+    with psycopg2.connect(**db_params) as conn:
+        with conn.cursor() as cur:
+            with open(file_path, 'r') as csvfile:
+                csvreader = csv.reader(csvfile)
+                next(csvreader)  # Skip the header row
+                data = [tuple(row) for row in csvreader]
+                
+                insert_query = \"\"\"
+                INSERT INTO graph (tension, torsion, bending_moment_x, bending_moment_y, time_seconds, temperature)
+                VALUES %s
+                ON CONFLICT DO NOTHING
+                \"\"\"
+                execute_values(cur, insert_query, data)
+            
+            conn.commit()
+    print(\"Data imported successfully\")
+  
+  if __name__ == \"__main__\":
+    import_csv_data('/app/sample_data.csv')
+"
+    
 create_file_if_not_exists "frontend/Dockerfile" "
 FROM node:14 as build
 WORKDIR /app

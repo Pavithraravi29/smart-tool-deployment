@@ -14,8 +14,3 @@ CREATE TABLE IF NOT EXISTS graph (
     temperature DECIMAL
 );
 
--- Load data from CSV files
-COPY graph(tension, torsion, bending_moment_x, bending_moment_y, time_seconds, temperature)
-FROM 'database\graph.csv' 
-DELIMITER ';' 
-CSV HEADER;
