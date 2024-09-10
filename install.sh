@@ -41,14 +41,10 @@ create_file_if_not_exists "backend/Dockerfile" "
 FROM python:3.9-slim
 WORKDIR /app
 COPY . /app
-COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-COPY database/graph.csv /app/database/graph.csv
-COPY import_data.py /app/import_data.py
 EXPOSE 8000
-CMD [\"sh\", \"-c\", \"python init_db.py && uvicorn main:app --host 0.0.0.0 --port 8000\"]
+CMD [\"sh\", \"-c\", \"python import_data.py && uvicorn main:app --host 0.0.0.0 --port 8000\"]
 "
-
 
 create_file_if_not_exists "backend/import_data.py" "
 import csv
@@ -81,11 +77,26 @@ def import_csv_data(file_path):
             
             conn.commit()
     print(\"Data imported successfully\")
-  
-  if __name__ == \"__main__\":
-     import_csv_data('/app/database/graph.csv')
+
+if __name__ == \"__main__\":
+    import_csv_data('graph.csv')
 "
-    
+
+create_file_if_not_exists "backend/graph.csv" "
+tension,torsion,bending_moment_x,bending_moment_y,time_seconds,temperature
+100.5,50.2,75.3,60.1,0,25.0
+102.0,51.5,76.0,61.2,1,25.2
+103.2,52.1,76.5,62.0,2,25.3
+101.8,50.9,75.8,61.5,3,25.1
+104.0,53.0,77.2,62.8,4,25.5
+"
+
+create_file_if_not_exists "backend/requirements.txt" "
+fastapi
+uvicorn
+psycopg2-binary
+"
+
 create_file_if_not_exists "frontend/Dockerfile" "
 FROM node:14 as build
 WORKDIR /app
@@ -108,8 +119,6 @@ version: '3.8'
 services:
   backend:
     build: ./backend
-    ports:
-      - \"8000:8000\"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
@@ -117,6 +126,8 @@ services:
       - POSTGRES_HOST=db
     depends_on:
       - db
+    ports:
+      - \"8000:8000\"
 
   frontend:
     build: ./frontend
