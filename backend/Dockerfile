@@ -19,4 +19,4 @@ COPY import_data.py /app/import_data.py
 EXPOSE 8000
 
 # Run the application
-CMD ["sh", "-c", "python init_db.py && uvicorn main:app --host 0.0.0.0 --port 8000"]
+CMD ["sh", "-c", "python init_db.py && python import_data.py && uvicorn main:app --host 0.0.0.0 --port 8000"]
