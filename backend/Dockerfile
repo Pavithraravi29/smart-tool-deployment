@@ -12,7 +12,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-COPY database/graph.csv /app/database/graph.csv
+COPY graph.csv /app/graph.csv
 COPY import_data.py /app/import_data.py
 
 # Make port 8000 available to the world outside this container
